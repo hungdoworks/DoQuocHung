@@ -1,6 +1,8 @@
+import TextField from "@mui/material/TextField";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import "./App.css";
+import { CurrencyAutocomplete } from "./CurrencyAutocomplete";
 
 function App() {
   const [prices, setPrices] = useState([]);
@@ -47,6 +49,14 @@ function App() {
       setAmountA(calculateAmount(selectedPriceB, selectedPriceA, amount));
   }
 
+  const CurrencyPriceOptions = useMemo(() => {
+    return prices.map((price, index) => ({
+      key: `${price.currency}_${index}`,
+      label: price.currency,
+      value: price.price,
+    }));
+  }, [prices]);
+
   useEffect(() => {
     axios.get("https://interview.switcheo.com/prices.json").then((res) => {
       setPrices(res.data);
@@ -55,43 +65,29 @@ function App() {
 
   return (
     <>
-      <select
-        defaultValue=""
-        onChange={(e) => handleCurrencyChangeA(+e.target.value)}
-      >
-        <option value="" disabled hidden>
-          Select currency
-        </option>
-        {prices.map((price, index) => (
-          <option key={index} value={price.price}>
-            {price.currency}
-          </option>
-        ))}
-      </select>
-      <input
-        type="number"
-        min={0}
-        value={amountA}
-        onChange={(e) => handleAmountChangeA(+e.target.value)}
+      <CurrencyAutocomplete
+        options={CurrencyPriceOptions}
+        onCurrencyChange={handleCurrencyChangeA}
       />
-      <select
-        defaultValue=""
-        onChange={(e) => handleCurrencyChangeB(+e.target.value)}
-      >
-        <option value="" disabled hidden>
-          Select currency
-        </option>
-        {prices.map((price, index) => (
-          <option key={index} value={price.price}>
-            {price.currency}
-          </option>
-        ))}
-      </select>
-      <input
-        type="number"
-        min={0}
-        value={amountB}
-        onChange={(e) => handleAmountChangeB(+e.target.value)}
+      <TextField
+        inputProps={{
+          type: "number",
+          min: 0,
+          value: amountA,
+          onChange: (e) => handleAmountChangeA(+e.target.value),
+        }}
+      />
+      <CurrencyAutocomplete
+        options={CurrencyPriceOptions}
+        onCurrencyChange={handleCurrencyChangeB}
+      />
+      <TextField
+        inputProps={{
+          type: "number",
+          min: 0,
+          value: amountB,
+          onChange: (e) => handleAmountChangeB(+e.target.value),
+        }}
       />
     </>
   );
