@@ -14,28 +14,37 @@ function App() {
     return currencyValue * exchangeRate;
   }
 
+  function canCalulate() {
+    if (selectedPriceA === "" || selectedPriceB === "") return false;
+    return true;
+  }
+
   function handleCurrencyChangeA(price) {
     setCurrencyPriceA(price);
 
-    setAmountB(calculateAmount(price, selectedPriceB, amountA));
+    if (canCalulate())
+      setAmountB(calculateAmount(price, selectedPriceB, amountA));
   }
 
   function handleCurrencyChangeB(price) {
     setCurrencyPriceB(price);
 
-    setAmountB(calculateAmount(selectedPriceA, price, amountA));
+    if (canCalulate())
+      setAmountB(calculateAmount(selectedPriceA, price, amountA));
   }
 
   function handleAmountChangeA(amount) {
     setAmountA(amount);
 
-    setAmountB(calculateAmount(selectedPriceA, selectedPriceB, amount));
+    if (canCalulate())
+      setAmountB(calculateAmount(selectedPriceA, selectedPriceB, amount));
   }
 
   function handleAmountChangeB(amount) {
     setAmountB(amount);
 
-    setAmountA(calculateAmount(selectedPriceB, selectedPriceA, amount));
+    if (canCalulate())
+      setAmountA(calculateAmount(selectedPriceB, selectedPriceA, amount));
   }
 
   useEffect(() => {
@@ -46,7 +55,13 @@ function App() {
 
   return (
     <>
-      <select onChange={(e) => handleCurrencyChangeA(+e.target.value)}>
+      <select
+        defaultValue=""
+        onChange={(e) => handleCurrencyChangeA(+e.target.value)}
+      >
+        <option value="" disabled hidden>
+          Select currency
+        </option>
         {prices.map((price, index) => (
           <option key={index} value={price.price}>
             {price.currency}
@@ -55,10 +70,17 @@ function App() {
       </select>
       <input
         type="number"
+        min={0}
         value={amountA}
         onChange={(e) => handleAmountChangeA(+e.target.value)}
       />
-      <select onChange={(e) => handleCurrencyChangeB(+e.target.value)}>
+      <select
+        defaultValue=""
+        onChange={(e) => handleCurrencyChangeB(+e.target.value)}
+      >
+        <option value="" disabled hidden>
+          Select currency
+        </option>
         {prices.map((price, index) => (
           <option key={index} value={price.price}>
             {price.currency}
@@ -67,6 +89,7 @@ function App() {
       </select>
       <input
         type="number"
+        min={0}
         value={amountB}
         onChange={(e) => handleAmountChangeB(+e.target.value)}
       />
