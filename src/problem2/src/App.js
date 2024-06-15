@@ -20,36 +20,35 @@ function App() {
     return currencyValue * exchangeRate;
   }
 
-  function canCalulate() {
-    if (selectedPriceA === "" || selectedPriceB === "") return false;
-    return true;
-  }
-
   function handleCurrencyChangeA(price) {
     setCurrencyPriceA(price);
 
-    if (canCalulate())
+    if (selectedPriceB !== "" && amountA === 0 && amountB > 0)
+      setAmountA(calculateAmount(selectedPriceB, price, amountB));
+    else if (selectedPriceB !== "")
       setAmountB(calculateAmount(price, selectedPriceB, amountA));
   }
 
   function handleCurrencyChangeB(price) {
     setCurrencyPriceB(price);
 
-    if (canCalulate())
+    if (selectedPriceA !== "" && amountA === 0 && amountB > 0)
+      setAmountA(calculateAmount(price, selectedPriceA, amountB));
+    else if (selectedPriceA !== "")
       setAmountB(calculateAmount(selectedPriceA, price, amountA));
   }
 
   function handleAmountChangeA(amount) {
     setAmountA(amount);
 
-    if (canCalulate())
+    if (selectedPriceA !== "" && selectedPriceB !== "")
       setAmountB(calculateAmount(selectedPriceA, selectedPriceB, amount));
   }
 
   function handleAmountChangeB(amount) {
     setAmountB(amount);
 
-    if (canCalulate())
+    if (selectedPriceA !== "" && selectedPriceB !== "")
       setAmountA(calculateAmount(selectedPriceB, selectedPriceA, amount));
   }
 

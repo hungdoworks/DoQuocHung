@@ -5,6 +5,7 @@ import TextField from "@mui/material/TextField";
 export function CurrencyAutocomplete({ options, onCurrencyChange }) {
   return (
     <Autocomplete
+      disableClearable
       options={options}
       onChange={(e, v) => onCurrencyChange(v.value)}
       renderOption={(props, option) => (
