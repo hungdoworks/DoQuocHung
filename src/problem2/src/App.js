@@ -98,7 +98,7 @@ function App() {
           inputProps={{
             type: "number",
             min: 0,
-            value: amountA,
+            value: amountA.toFixed(2),
             onChange: (e) => handleAmountChangeA(+e.target.value),
           }}
         />
@@ -111,7 +111,7 @@ function App() {
           inputProps={{
             type: "number",
             min: 0,
-            value: amountB,
+            value: amountB.toFixed(2),
             onChange: (e) => handleAmountChangeB(+e.target.value),
           }}
         />
