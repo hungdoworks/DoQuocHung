@@ -1,4 +1,8 @@
+import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
+import Paper from "@mui/material/Paper";
+import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 import axios from "axios";
 import { useEffect, useMemo, useState } from "react";
 import "./App.css";
@@ -64,32 +68,56 @@ function App() {
   }, []);
 
   return (
-    <>
-      <CurrencyAutocomplete
-        options={CurrencyPriceOptions}
-        onCurrencyChange={handleCurrencyChangeA}
-      />
-      <TextField
-        inputProps={{
-          type: "number",
-          min: 0,
-          value: amountA,
-          onChange: (e) => handleAmountChangeA(+e.target.value),
+    <Paper
+      sx={{
+        position: "absolute",
+        top: "35%",
+        left: "50%",
+        translate: "-50% 0",
+        width: "fit-content",
+        padding: "48px",
+      }}
+      elevation={3}
+    >
+      <Typography
+        variant="h1"
+        sx={{
+          textAlign: "center",
+          marginBottom: "36px",
+          fontSize: "48px",
+          fontWeight: "700",
         }}
-      />
-      <CurrencyAutocomplete
-        options={CurrencyPriceOptions}
-        onCurrencyChange={handleCurrencyChangeB}
-      />
-      <TextField
-        inputProps={{
-          type: "number",
-          min: 0,
-          value: amountB,
-          onChange: (e) => handleAmountChangeB(+e.target.value),
-        }}
-      />
-    </>
+      >
+        Easy Swap
+      </Typography>
+      <Stack direction="row" spacing={2}>
+        <CurrencyAutocomplete
+          options={CurrencyPriceOptions}
+          onCurrencyChange={handleCurrencyChangeA}
+        />
+        <TextField
+          inputProps={{
+            type: "number",
+            min: 0,
+            value: amountA,
+            onChange: (e) => handleAmountChangeA(+e.target.value),
+          }}
+        />
+        <SwapHorizIcon sx={{ alignSelf: "center" }} />
+        <CurrencyAutocomplete
+          options={CurrencyPriceOptions}
+          onCurrencyChange={handleCurrencyChangeB}
+        />
+        <TextField
+          inputProps={{
+            type: "number",
+            min: 0,
+            value: amountB,
+            onChange: (e) => handleAmountChangeB(+e.target.value),
+          }}
+        />
+      </Stack>
+    </Paper>
   );
 }
 

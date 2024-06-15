@@ -13,18 +13,22 @@ export function CurrencyAutocomplete({ options, onCurrencyChange }) {
             loading="lazy"
             width="20"
             src={`https://raw.githubusercontent.com/Switcheo/token-icons/main/tokens/${option.label}.svg`}
-            alt="" />
+            alt=""
+          />
           {option.label}
         </Box>
       )}
       renderInput={(params) => (
         <TextField
           {...params}
-          label="Choose a country"
+          sx={{ minWidth: "200px" }}
+          label="Choose a currency"
           inputProps={{
             ...params.inputProps,
             autoComplete: "new-password",
-          }} />
-      )} />
+          }}
+        />
+      )}
+    />
   );
 }
